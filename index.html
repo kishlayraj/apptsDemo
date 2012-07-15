@@ -21,65 +21,66 @@
 #
 -->
 <head>
-	<title></title>
+    <title></title>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta charset="utf-8">
 
 
-	<!-- iPad/iPhone specific css below, add after your main css >
-	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
-	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
--->
-	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
-	<link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" type="text/css" charset="utf-8" />
-	<link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+    <!-- iPad/iPhone specific css below, add after your main css >
+        <link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />
+        <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />
+    -->
+    <!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.1.0.min.css" type="text/css" charset="utf-8"/>
+    <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8"/>
 
-	<script type="text/javascript" charset="utf-8" src="js/vendors/cordova-1.9.0.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/vendors/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/vendors/jsrender.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/vendors/jquery.mobile-1.1.0.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/vendors/cordova-1.9.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/vendors/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/vendors/jsrender.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/vendors/jquery.mobile-1.1.0.min.js"></script>
 </head>
 <body onload="onBodyLoad()">
-	<div id="wrapper">
+<div id="wrapper">
 
-		<!-- Sidebar Begin -->
-		<aside id="sidebar">
-			<nav>
-				<ul id="navigation">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="my-account.html">Not Build By jQuery :(</a></li>
-					<!-- build by app.js template -->
-				</ul>
-			</nav>
-		</aside>
-		<!-- Sidebar End -->
+    <!-- Sidebar Begin -->
+    <aside id="sidebar">
+        <nav>
+            <ul id="navigation">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="my-account.html">Not Build By jQuery :(</a></li>
+                <!-- build by app.js template -->
+            </ul>
+        </nav>
+    </aside>
+    <!-- Sidebar End -->
 
-		<!-- Main Content Begin -->
-		<section data-role="page" id="index" class="page">
-			<header data-role="header" data-position="fixed" data-id="header">
-				<div class="controls">
-					<a title="Toggle Sidebar"><img src="img/icons/icon-toggle.png" alt="Toggle Sidebar" /></a>
-				</div>
-				<h1>My Title</h1>
-			</header>
-			<div class="content-scroll" data-role="content">
-				<section id="main">
-					<h1>This is the index page</h1>
-					<p>We do whatever here</p>
-					<ul data-role="listview">
-						<li><a href="index.html" title="Home">Home</a></li>
-						<li><a href="my-account.html" title="My Account">My Account</a></li>
-						<li><a href="my-appointments.html" title="My Appointments">My Appointments</a></li>
-					</ul>
-				</section>
-				<footer>
-					Copyright &copy; 2012. All Rights Reserved.
-				</footer>
-			</div>
-		</section>
-		<!-- Main Content End -->
-	</div>
-	<script type="text/javascript" src="js/application/app.js"></script>
+    <!-- Main Content Begin -->
+    <section data-role="page" id="index" class="page">
+        <header data-role="header" data-position="fixed" data-id="header">
+            <div class="controls">
+                <a title="Toggle Sidebar"><img src="img/icons/icon-toggle.png" alt="Toggle Sidebar"/></a>
+            </div>
+            <h1>My Title</h1>
+        </header>
+        <div class="content-scroll" data-role="content">
+            <section id="main">
+                <h1>This is the index page</h1>
+
+                <p>We do whatever here</p>
+                <ul data-role="listview">
+                    <li><a href="index.html" title="Home">Home</a></li>
+                    <li><a href="my-account.html" title="My Account">My Account</a></li>
+                    <li><a href="my-appointments.html" title="My Appointments">My Appointments</a></li>
+                </ul>
+            </section>
+            <footer>
+                Copyright &copy; 2012. All Rights Reserved.
+            </footer>
+        </div>
+    </section>
+    <!-- Main Content End -->
+</div>
+<script type="text/javascript" src="js/application/app.js"></script>
 </body>
 </html>
