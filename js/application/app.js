@@ -23,7 +23,7 @@ function onBodyLoad() {
     document.addEventListener("deviceready", onDeviceReady, false);
 }
 
-Navigation = {
+var Navigation = {
     Initialise:function () {
         $(":jqmData(role='page')").on("pageshow", function (event) {
 
@@ -32,11 +32,11 @@ Navigation = {
             /* Sidebar Control */
             $(".controls a").click(function () {
                 console.log("Clicked event fired...");
-                if (menuStatus != true) {
+                if (menuStatus !== true) {
                     $(".ui-page-active .main, .ui-header-fixed").animate({
                         marginLeft:"260px"
                     }, 300, function () {
-                        menuStatus = true
+                        menuStatus = true;
                     });
                     console.log("menuStatus is false...");
                     return false;
@@ -44,7 +44,7 @@ Navigation = {
                     $(".ui-page-active .main, .ui-header-fixed").animate({
                         marginLeft:"0px"
                     }, 300, function () {
-                        menuStatus = false
+                        menuStatus = false;
                     });
                     console.log("menuStatus is true...");
                     return false;
@@ -73,7 +73,7 @@ function viewTemplate() {
                     );
                     console.log("Done");
                 });
-        }
+        };
 }
 
 
