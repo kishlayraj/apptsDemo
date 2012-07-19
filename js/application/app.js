@@ -26,8 +26,6 @@ function onBodyLoad() {
 var Navigation = {
     Initialise:function () {
         $(":jqmData(role='page')").on("pageshow", function (event) {
-<<<<<<< HEAD
-
             console.log("Current Status: " + menuStatus);
 
             /* Sidebar Control */
@@ -36,17 +34,6 @@ var Navigation = {
                 if (menuStatus !== true) {
                     $(".ui-page-active .main, .ui-header-fixed").animate({
                         marginLeft:"260px"
-=======
-            var menuStatus = menuStatus || false;
-            console.log("Current Status: "+menuStatus);
-
-            /* Sidebar Control */
-            $(".ui-page-active .controls a").click(function () {
-                console.log("Clicked event fired...");
-                if (menuStatus != true) {
-                    $(".ui-page-active .main, .ui-header-fixed").animate({
-                        marginLeft:"250px"
->>>>>>> Another crack at the slide left navigation menu
                     }, 300, function () {
                         menuStatus = true;
                     });
@@ -101,15 +88,11 @@ $(document).bind("pageinit", function () {
 
     // TODO: Figure out how to read new menu items from each individual pages.
 
-<<<<<<< HEAD
     //template.renderExternalTemplate({ name:'menuTemplate', selector:'.navigation', data:menu }); // Function is broken... --jesusOmar
 
     $(".navigation").html(
         $("#menuTemplate").render(menu)
     );
-=======
-    template.renderExternalTemplate({ name:'menuTemplate', selector:'.navigation', data:menu });
->>>>>>> Another crack at the slide left navigation menu
 
     Navigation.Initialise();
 });

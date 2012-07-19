@@ -19,11 +19,7 @@
 
 /* Sidebar */
 aside {
-<<<<<<< HEAD
     width: 260px !important;
-=======
-    width: 258px !important;
->>>>>>> Another crack at the slide left navigation menu
     height: 100%;
     position: absolute !important;
     display: block;
@@ -140,10 +136,6 @@ header {
 footer {
     font-size: 11px;
     text-align: center;
-<<<<<<< HEAD
-=======
-    padding: 16px;
->>>>>>> Another crack at the slide left navigation menu
     color: #808080;
     text-shadow: 1px 1px 0px #f0f0f0;
     border-top: 1px solid #c8c8c7;
