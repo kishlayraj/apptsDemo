@@ -25,6 +25,9 @@ function onBodyLoad() {
 
 $(document).bind("pageinit", function () {
     console.log("Page INIT has been called");
+
+    // putting this here calls it on every page; not sure if this is the right way to go
+    utils.renderExternalTemplate("footer", "footer");
 });
 
 /* When this function is called, Cordova has been initialized and is ready to roll */
@@ -34,3 +37,31 @@ $(document).bind("pageinit", function () {
 function onDeviceReady() {
     navigator.notification.alert("Cordova is working");
 }
+
+/* 
+ * renderExternalTemplate function to use with jsrender
+ * put external templates in the templates folder
+ * name them _templateName.tmpl.html
+ * from http://msdn.microsoft.com/en-us/magazine/hh975379.aspx 
+ */
+utils = (function () {
+  var
+    formatTemplatePath = function (name) {
+      return "/templates/_" + name + ".tmpl.html";
+    },
+    renderTemplate = function (tmplName, targetSelector, data) {
+      var file = formatTemplatePath(tmplName);
+      $.get(file, null, function (template) {
+        var tmpl = $.templates(template);
+        var htmlString = tmpl.render(data);
+        if (targetSelector) {
+          $(targetSelector).html(htmlString);
+        }
+        return htmlString;
+          });
+        };
+    return {
+      formatTemplatePath: formatTemplatePath,
+        renderExternalTemplate: renderTemplate
+    };
+})();
