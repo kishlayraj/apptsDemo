@@ -17,8 +17,6 @@
  }
  */
 
-var menuStatus = menuStatus || false;
-
 function onBodyLoad() {
     document.addEventListener("deviceready", onDeviceReady, false);
 }
