@@ -22,17 +22,17 @@ function onBodyLoad() {
 }
 
 $(document).bind("pageinit", function () {
-    console.log("Page INIT has been called");
-    /* BEGIN We Need to Move This Somewhere Else */
+    // putting this here calls it on every page; not sure if this is the right way to go
+    utils.renderExternalTemplate("footer", "footer");
+});
+
+$(document).delegate("#my-appointments", "pageinit", function () {
+    /* Only runs when #my-appointments page is loaded */
     $.support.cors = true;
     $.mobile.allowCrossDomainPages = true;
-    console.log('About to call ajax');
     $.ajax({
-
         type:"GET",
-
         url:"http://api.informulate.com/api/appointments"
-
     }).done(function (data) {
             $.each(data, function (i, val) {
                 $('#appointmentList').append('<li>' +
@@ -42,16 +42,13 @@ $(document).bind("pageinit", function () {
                     '<div style="height:20px;overflow:hidden" class="desc"> ' + val.Description + '</div></li>');
                 if (i == 9)
                     return false;
-
             });
 
             $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
         });
 
-    //    });
     var showmore = false;
     $('.desc').live("click", function (event) {
-        console.log("Description Clicked....");
         event.preventDefault(); // Stops jQuery mobile from reloading the index page.
         event.stopImmediatePropagation();
 
@@ -63,10 +60,6 @@ $(document).bind("pageinit", function () {
         }
         this.showmore = !this.showmore;
     });
-    /* END We Need to Move This Somewhere Else */
-
-    // putting this here calls it on every page; not sure if this is the right way to go
-    utils.renderExternalTemplate("footer", "footer");
 });
 
 /* When this function is called, Cordova has been initialized and is ready to roll */
