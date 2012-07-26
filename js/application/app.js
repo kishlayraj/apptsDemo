@@ -23,6 +23,47 @@ function onBodyLoad() {
 
 $(document).bind("pageinit", function () {
     console.log("Page INIT has been called");
+    /* BEGIN We Need to Move This Somewhere Else */
+    $.support.cors = true;
+    $.mobile.allowCrossDomainPages = true;
+    console.log('About to call ajax');
+    $.ajax({
+
+        type:"GET",
+
+        url:"http://api.informulate.com/api/appointments"
+
+    }).done(function (data) {
+            $.each(data, function (i, val) {
+                $('#appointmentList').append('<li>' +
+                    '<img src="http://www.newwinechurch.com/wp-content/uploads/2011/06/Sunrise.jpg' + '" height="40px" width="60px"/>' +
+                    '<h4>' + val.name + ' ' + '</h4>' +
+                    '<p>' + val.date.date + '</p>' +
+                    '<div style="height:20px;overflow:hidden" class="desc"> ' + val.Description + '</div></li>');
+                if (i == 9)
+                    return false;
+
+            });
+
+            $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
+        });
+
+    //    });
+    var showmore = false;
+    $('.desc').live("click", function (event) {
+        console.log("Description Clicked....");
+        event.preventDefault(); // Stops jQuery mobile from reloading the index page.
+        event.stopImmediatePropagation();
+
+        if (this.showmore) {
+            $(this).animate({height:'20px'});
+        }
+        else {
+            $(this).animate({height:'100%'});
+        }
+        this.showmore = !this.showmore;
+    });
+    /* END We Need to Move This Somewhere Else */
 
     // putting this here calls it on every page; not sure if this is the right way to go
     utils.renderExternalTemplate("footer", "footer");
@@ -43,23 +84,23 @@ function onDeviceReady() {
  * from http://msdn.microsoft.com/en-us/magazine/hh975379.aspx 
  */
 utils = (function () {
-  var
-    formatTemplatePath = function (name) {
-      return "/templates/_" + name + ".tmpl.html";
-    },
-    renderTemplate = function (tmplName, targetSelector, data) {
-      var file = formatTemplatePath(tmplName);
-      $.get(file, null, function (template) {
-        var tmpl = $.templates(template);
-        var htmlString = tmpl.render(data);
-        if (targetSelector) {
-          $(targetSelector).html(htmlString);
-        }
-        return htmlString;
-          });
+    var
+        formatTemplatePath = function (name) {
+            return "/templates/_" + name + ".tmpl.html";
+        },
+        renderTemplate = function (tmplName, targetSelector, data) {
+            var file = formatTemplatePath(tmplName);
+            $.get(file, null, function (template) {
+                var tmpl = $.templates(template);
+                var htmlString = tmpl.render(data);
+                if (targetSelector) {
+                    $(targetSelector).html(htmlString);
+                }
+                return htmlString;
+            });
         };
     return {
-      formatTemplatePath: formatTemplatePath,
-        renderExternalTemplate: renderTemplate
+        formatTemplatePath:formatTemplatePath,
+        renderExternalTemplate:renderTemplate
     };
 })();
