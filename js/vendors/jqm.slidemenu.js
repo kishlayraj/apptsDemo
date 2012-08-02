@@ -71,10 +71,10 @@ function slidemenu(sm, only_close, swipe) {
         }, {
             duration:'fast',
             complete:function () {
-                alert('WTF WOMAN');
-                //if ($(":jqmData(role='header')").data('position') == 'fixed') {
-                //    $(":jqmData(role='header')").css('left', w); //TODO: Figure out why this only works on the index page.
-                //}
+                //alert('WTF WOMAN');
+                if ($(":jqmData(role='header')").data('position') == 'fixed') {
+                    $(":jqmData(role='header')").css('left', w); //TODO: Figure out why this only works on the index page.
+                }
             }
         });
 
