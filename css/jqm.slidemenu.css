@@ -2,15 +2,19 @@
 	position: fixed;
 	top: 0px;
 	left: 0px;
-	width: 0px;
+	width: 240px;
 	height: 100%;
 	background-color: #262C3A;
 	-webkit-box-shadow: 3px 0px 5px -2px #32394A;
 	box-shadow: 3px 0px 5px -2px #32394A;
-	z-index: 2147483647;
-	display: none;
+	/*z-index: 2147483647;*/
+    z-index: 1;
+	display: block;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
+}
+.ui-page-active {
+    z-index: 2147483647;
 }
 
 .slidemenu h3{
