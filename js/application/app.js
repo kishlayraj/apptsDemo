@@ -30,22 +30,7 @@ $(document).delegate("#my-appointments", "pageinit", function () {
     /* Only runs when #my-appointments page is loaded */
     $.support.cors = true;
     $.mobile.allowCrossDomainPages = true;
-    $.ajax({
-        type:"GET",
-        url:"http://api.informulate.com/api/appointments"
-    }).done(function (data) {
-            $.each(data, function (i, val) {
-                $('#appointmentList').append('<li>' +
-                    '<img src="http://www.newwinechurch.com/wp-content/uploads/2011/06/Sunrise.jpg' + '" height="40px" width="60px"/>' +
-                    '<h4>' + val.name + ' ' + '</h4>' +
-                    '<p>' + val.date.date + '</p>' +
-                    '<div style="height:20px;overflow:hidden" class="desc"> ' + val.Description + '</div></li>');
-                if (i == 9)
-                    return false;
-            });
-
-            $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
-        });
+    utils.getAppointments();
 
     var showmore = false;
     $('.desc').live("click", function (event) {
@@ -59,6 +44,20 @@ $(document).delegate("#my-appointments", "pageinit", function () {
             $(this).animate({height:'100%'});
         }
         this.showmore = !this.showmore;
+    });
+
+    // Get more appointments when reaching the end of the page.
+    var alreadyLoading = false;
+
+    $(window).scroll(function () {
+        if ($(window).scrollTop() >= ($('body').height() * 0.9)) { // TODO: $('body').height() is not been reset after appending to the viewport.
+            console.log("Reached 90%");
+            console.log("Already Loading = " + alreadyLoading);
+            if (alreadyLoading == false) {
+                alreadyLoading = true; // TODO: Reset alreadyLoading after appointments finish loading.
+                utils.getAppointments(); // TODO: Pass the next page argument i.e. getAppointments(nextPage);
+            }
+        }
     });
 });
 
@@ -91,9 +90,29 @@ utils = (function () {
                 }
                 return htmlString;
             });
+        },
+        getAppointments = function () {
+            console.log("Called getAppointments()");
+            $.ajax({
+                type:"GET",
+                url:"http://api.informulate.com/api/appointments"
+            }).done(function (data) {
+                    $.each(data, function (i, val) {
+                        $('#appointmentList').append('<li>' +
+                            '<img src="http://www.newwinechurch.com/wp-content/uploads/2011/06/Sunrise.jpg' + '" height="40px" width="60px"/>' +
+                            '<h4>' + val.name + ' ' + '</h4>' +
+                            '<p>' + val.date.date + '</p>' +
+                            '<div style="height:20px;overflow:hidden" class="desc"> ' + val.Description + '</div></li>');
+                        if (i == 9)
+                            return false;
+                    });
+
+                    $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
+                });
         };
     return {
         formatTemplatePath:formatTemplatePath,
-        renderExternalTemplate:renderTemplate
+        renderExternalTemplate:renderTemplate,
+        getAppointments:getAppointments
     };
 })();
