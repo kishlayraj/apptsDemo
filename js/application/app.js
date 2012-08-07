@@ -49,15 +49,15 @@ $(document).delegate("#my-appointments", "pageinit", function () {
     // Get more appointments when reaching the end of the page.
     var alreadyLoading = false;
 
-    $(window).scroll(function () {
-        if ($(window).scrollTop() >= ($('body').height() * 0.9)) { // TODO: $('body').height() is not been reset after appending to the viewport.
-            console.log("Reached 90%");
-            console.log("Already Loading = " + alreadyLoading);
-            if (alreadyLoading == false) {
-                alreadyLoading = true; // TODO: Reset alreadyLoading after appointments finish loading.
-                utils.getAppointments(); // TODO: Pass the next page argument i.e. getAppointments(nextPage);
+    $(window).bind('scrollstart', function () {
+        //if ($(window).scrollTop() >= ($('body').height() * 0.9)) { // TODO: $('body').height() is not been reset after appending to the viewport.
+            if (utils.isAtBottom()) {
+                if (alreadyLoading == false) {
+                    alreadyLoading = true; // TODO: Reset alreadyLoading after appointments finish loading.
+                    utils.getAppointments(); // TODO: Pass the next page argument i.e. getAppointments(nextPage);
+                }
             }
-        }
+       // }
     });
 });
 
@@ -109,10 +109,27 @@ utils = (function () {
 
                     $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
                 });
+        },
+        isAtBottom = function () {
+            var totalHeight, currentScroll, visibleHeight;
+
+            if (document.documentElement.scrollTop) {
+                currentScroll = document.documentElement.scrollTop;
+            } else {
+                currentScroll = document.body.scrollTop;
+            }
+
+            totalHeight = document.body.offsetHeight; // TODO: This never gets reset.
+            bodyHeight = $('body').height();
+            visibleHeight = document.documentElement.clientHeight;
+
+            console.log('total height: ' + totalHeight + ' ' + 'visibleHeight : ' + visibleHeight + ' ' + 'currentScroll:' + currentScroll + ' bodyHeight:' + bodyHeight);
+            return (totalHeight <= currentScroll + visibleHeight );
         };
     return {
         formatTemplatePath:formatTemplatePath,
         renderExternalTemplate:renderTemplate,
-        getAppointments:getAppointments
+        getAppointments:getAppointments,
+        isAtBottom:isAtBottom
     };
 })();
