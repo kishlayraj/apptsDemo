@@ -107,7 +107,7 @@ utils = (function () {
                 currentScroll = document.body.scrollTop;
             }
 
-            totalHeight = $('.ui-page-active').height();
+            totalHeight = $.mobile.activePage.height();
             bodyHeight = $('body').height();
             visibleHeight = document.documentElement.clientHeight;
 
