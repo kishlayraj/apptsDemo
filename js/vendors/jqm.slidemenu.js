@@ -4,12 +4,12 @@ $(document).on("pageinit", ":jqmData(role='page')", function () {
     var sm = $($(":jqmData(slidemenu)").data('slidemenu'));
     sm.addClass('slidemenu');
 
-    $(document).on("swipeleft", ":jqmData(role='page')", function () {
+    $(document).on("swipeleft", ".ui-page-active", function () {
         only_close = false;
         swipe = 'left';
         slidemenu(sm, only_close, swipe);
     });
-    $(document).on("swiperight", ":jqmData(role='page')", function () {
+    $(document).on("swiperight", ".ui-page-active", function () {
         only_close = false;
         swipe = 'right';
         slidemenu(sm, only_close, swipe);
@@ -63,15 +63,14 @@ function slidemenu(sm, only_close, swipe) {
 
         //sm.show();
         var w = '240px';
-        //sm.animate({width: w, avoidTransforms: false, useTranslate3d: true}, 'fast');
-        $(":jqmData(role='page')").animate({
+        $.mobile.activePage.animate({
             left:w,
             avoidTransforms:false,
             useTranslate3d:true
         }, {
             duration:'fast',
             complete:function () {
-                //alert('WTF WOMAN');
+               console.log('This should fire on all pages...');
                 if ($(":jqmData(role='header')").data('position') == 'fixed') {
                     $(":jqmData(role='header')").css('left', w); //TODO: Figure out why this only works on the index page.
                 }
