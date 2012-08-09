@@ -108,10 +108,9 @@ utils = (function () {
             }
 
             totalHeight = $.mobile.activePage.height();
-            bodyHeight = $('body').height();
             visibleHeight = document.documentElement.clientHeight;
 
-            console.log('total height: ' + totalHeight + ' ' + 'visibleHeight : ' + visibleHeight + ' ' + 'currentScroll:' + currentScroll + ' bodyHeight:' + bodyHeight);
+            console.log('total height: ' + totalHeight + ' ' + 'visibleHeight : ' + visibleHeight + ' ' + 'currentScroll:' + currentScroll);
             return (totalHeight <= currentScroll + visibleHeight );
         }, lazyLoading = false;
     return {
