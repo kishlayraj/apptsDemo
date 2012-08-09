@@ -1,3 +1,8 @@
+// Overwrite jQuery Mobile defaults
+$(document).bind("mobileinit", function() {
+    $.mobile.allowCrossDomainPages = true;
+});
+
 var app = {
     initialize: function() {
         this.bind();
@@ -23,8 +28,6 @@ $(document).bind("pageinit", function () {
 
 $(document).delegate("#my-appointments", "pageinit", function () {
     /* Only runs when #my-appointments page is loaded */
-    $.support.cors = true;
-    $.mobile.allowCrossDomainPages = true;
     utils.getAppointments();
 
     var showmore = false;
@@ -42,17 +45,14 @@ $(document).delegate("#my-appointments", "pageinit", function () {
     });
 
     // Get more appointments when reaching the end of the page.
-    var alreadyLoading = false;
-
     $(window).bind('scrollstart', function () {
-        //if ($(window).scrollTop() >= ($('body').height() * 0.9)) { // TODO: $('body').height() is not been reset after appending to the viewport.
-            if (utils.isAtBottom()) {
-                if (alreadyLoading == false) {
-                    alreadyLoading = true; // TODO: Reset alreadyLoading after appointments finish loading.
-                    utils.getAppointments(); // TODO: Pass the next page argument i.e. getAppointments(nextPage);
-                }
+        if (utils.isAtBottom()) {
+           console.log('utils.lazyLoading = ' + utils.lazyLoading);
+            if (utils.lazyLoading === false) {
+                utils.getAppointments(); // TODO: Pass the next page argument i.e. getAppointments(nextPage);
+                utils.lazyLoading = true; // TODO: Display a progress icon so that the user knows we are loading new appointments.
             }
-       // }
+        }
     });
 });
 
@@ -95,6 +95,7 @@ utils = (function () {
                     });
 
                     $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
+                    utils.lazyLoading = false; // Prevents getAppointments from firing during callback.
                 });
         },
         isAtBottom = function () {
@@ -106,13 +107,13 @@ utils = (function () {
                 currentScroll = document.body.scrollTop;
             }
 
-            totalHeight = document.body.offsetHeight; // TODO: This never gets reset.
+            totalHeight = $('.ui-page-active').height();
             bodyHeight = $('body').height();
             visibleHeight = document.documentElement.clientHeight;
 
             console.log('total height: ' + totalHeight + ' ' + 'visibleHeight : ' + visibleHeight + ' ' + 'currentScroll:' + currentScroll + ' bodyHeight:' + bodyHeight);
             return (totalHeight <= currentScroll + visibleHeight );
-        };
+        }, lazyLoading = false;
     return {
         formatTemplatePath:formatTemplatePath,
         renderExternalTemplate:renderTemplate,
