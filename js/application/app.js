@@ -21,36 +21,40 @@ var app = {
     }
 };
 
-$(document).bind("pageinit", function () {
+$(document).bind("pageinit", function() {
     // putting this here calls it on every page; not sure if this is the right way to go
     utils.renderExternalTemplate("footer", "footer");
 });
 
-$(document).delegate("#my-appointments", "pageinit", function () {
-    /* Only runs when #my-appointments page is loaded */
+$(document).delegate("#my-appointments", "pageinit", function() { /* Only runs when #my-appointments page is loaded */
     utils.getAppointments();
 
     var showmore = false;
-    $('.desc').live("click", function (event) {
+    $('.desc').live("click", function(event) {
         event.preventDefault(); // Stops jQuery mobile from reloading the index page.
         event.stopImmediatePropagation();
 
         if (this.showmore) {
-            $(this).animate({height:'20px'});
-        }
-        else {
-            $(this).animate({height:'100%'});
+            $(this).animate({
+                height: '20px'
+            });
+        } else {
+            $(this).animate({
+                height: '100%'
+            });
         }
         this.showmore = !this.showmore;
     });
 
     // Get more appointments when reaching the end of the page.
-    $(window).bind('scrollstart', function () {
+    $(window).bind('scrollstart', function() {
         if (utils.isAtBottom()) {
-           console.log('utils.lazyLoading = ' + utils.lazyLoading);
             if (utils.lazyLoading === false) {
+                // Add a loading spinner first so that the user knows we are working on it.
+                $('#appointmentList').append('<li class="loading">' + utils.loadingSpinner() + '</li>');
+                $('#appointmentList').listview('refresh');
+                utils.lazyLoading = true;
                 utils.getAppointments(); // TODO: Pass the next page argument i.e. getAppointments(nextPage);
-                utils.lazyLoading = true; // TODO: Display a progress icon so that the user knows we are loading new appointments.
             }
         }
     });
@@ -62,14 +66,14 @@ $(document).delegate("#my-appointments", "pageinit", function () {
  * name them _templateName.tmpl.html
  * from http://msdn.microsoft.com/en-us/magazine/hh975379.aspx 
  */
-utils = (function () {
+utils = (function() {
     var
-        formatTemplatePath = function (name) {
+    formatTemplatePath = function(name) {
             return "/templates/_" + name + ".tmpl.html";
         },
-        renderTemplate = function (tmplName, targetSelector, data) {
+        renderTemplate = function(tmplName, targetSelector, data) {
             var file = formatTemplatePath(tmplName);
-            $.get(file, null, function (template) {
+            $.get(file, null, function(template) {
                 var tmpl = $.templates(template);
                 var htmlString = tmpl.render(data);
                 if (targetSelector) {
@@ -78,30 +82,22 @@ utils = (function () {
                 return htmlString;
             });
         },
-        getAppointments = function () {
+        getAppointments = function() {
             console.log("Called getAppointments()");
-            // Add a loading spinner first so that the user knows we are working on it.
-            $('#appointmentList').append('<li class="loading"></li>');
-            $('#appointmentList').listview('refresh');
             $.ajax({
-                type:"GET",
-                url:"http://api.informulate.com/api/appointments"
-            }).done(function (data) {
-                    $.each(data, function (i, val) {
-                        $('#appointmentList').append('<li>' +
-                            '<img src="http://api.informulate.com/img/instructors/' + val.instructor.image + '" height="100px" width="100px"/>' +
-                            '<h4>' + val.name + ' ' + '</h4>' +
-                            '<p>' + val.date.date + '</p>' +
-                            '<div class="desc"> ' + val.Description + '</div></li>');
-                        if (i == 9)
-                            return false;
-                    });
-                    $('.loading').hide(); // Finished loading.... hide the spinner.
-                    $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
-                    utils.lazyLoading = false; // Prevents getAppointments from firing during callback.
+                type: "GET",
+                url: "http://api.informulate.com/api/appointments"
+            }).done(function(data) {
+                $.each(data, function(i, current) {
+                    $('#appointmentList').append('<li>' + '<img src="http://api.informulate.com/img/instructors/' + current.instructor.image + '" height="100px" width="100px"/>' + '<h4>' + current.name + ' ' + '</h4>' + '<p>' + current.date.date + '</p>' + '<div class="desc"> ' + current.Description + '</div></li>');
+                    if (i == 9) return false;
                 });
+                $('.loading').remove(); // Finished loading.... hide the spinner.
+                $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
+                utils.lazyLoading = false; // Prevents getAppointments from firing during callback.
+            });
         },
-        isAtBottom = function () {
+        isAtBottom = function() {
             var totalHeight, currentScroll, visibleHeight;
 
             if (document.documentElement.scrollTop) {
@@ -114,12 +110,27 @@ utils = (function () {
             visibleHeight = document.documentElement.clientHeight;
 
             console.log('total height: ' + totalHeight + ' ' + 'visibleHeight : ' + visibleHeight + ' ' + 'currentScroll:' + currentScroll);
-            return (totalHeight <= currentScroll + visibleHeight );
-        }, lazyLoading = false;
+            return (totalHeight <= currentScroll + visibleHeight);
+        },
+        loadingSpinner = function() {
+            var spinner = '<div id="floatingBarsG">\
+                                <div class="blockG" id="rotateG_01"></div>\
+                                <div class="blockG" id="rotateG_02"></div>\
+                                <div class="blockG" id="rotateG_03"></div>\
+                                <div class="blockG" id="rotateG_04"></div>\
+                                <div class="blockG" id="rotateG_05"></div>\
+                                <div class="blockG" id="rotateG_06"></div>\
+                                <div class="blockG" id="rotateG_07"></div>\
+                                <div class="blockG" id="rotateG_08"></div>\
+                            </div>';
+            return spinner;
+        },
+        lazyLoading = false;
     return {
-        formatTemplatePath:formatTemplatePath,
-        renderExternalTemplate:renderTemplate,
-        getAppointments:getAppointments,
-        isAtBottom:isAtBottom
+        formatTemplatePath: formatTemplatePath,
+        renderExternalTemplate: renderTemplate,
+        getAppointments: getAppointments,
+        isAtBottom: isAtBottom,
+        loadingSpinner: loadingSpinner
     };
 })();
