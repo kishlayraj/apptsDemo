@@ -2,3 +2,11 @@
     background: url('/img/ajax-loader.gif') center center no-repeat;
 	height: 25px;
 }
+#appointmentList img {
+    margin: 5px;
+    border: 3px solid #ccc;
+}
+.desc {
+    height: 30px;
+    overflow: hidden;
+}

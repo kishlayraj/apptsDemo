@@ -89,10 +89,10 @@ utils = (function () {
             }).done(function (data) {
                     $.each(data, function (i, val) {
                         $('#appointmentList').append('<li>' +
-                            '<img src="http://www.newwinechurch.com/wp-content/uploads/2011/06/Sunrise.jpg' + '" height="40px" width="60px"/>' +
+                            '<img src="http://api.informulate.com/img/instructors/' + val.instructor.image + '" height="100px" width="100px"/>' +
                             '<h4>' + val.name + ' ' + '</h4>' +
                             '<p>' + val.date.date + '</p>' +
-                            '<div style="height:20px;overflow:hidden" class="desc"> ' + val.Description + '</div></li>');
+                            '<div class="desc"> ' + val.Description + '</div></li>');
                         if (i == 9)
                             return false;
                     });
