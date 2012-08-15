@@ -61,7 +61,7 @@ function slidemenu(sm, only_close, swipe) {
 
     if (!$(this).data('slideopen') && !only_close) {
 
-        //sm.show();
+        sm.show();
         var w = '240px';
         $.mobile.activePage.animate({
             left:w,
@@ -81,7 +81,15 @@ function slidemenu(sm, only_close, swipe) {
 
     } else {
         var w = '0px';
-        //sm.animate({width: w, avoidTransforms: false, useTranslate3d: true}, 'fast', function(){sm.hide()});
+        //sm.animate({
+        // width: w,
+        // avoidTransforms: false,
+        // useTranslate3d: true
+        // },
+        // 'fast',
+        // function(){
+        // sm.hide()
+        // });
         //$(":jqmData(role='page')").animate({left:'0px', avoidTransforms:false, useTranslate3d:true}, { duration:'fast', queue:false });
         $(":jqmData(role='page')").animate({
             left:'0px',
@@ -92,7 +100,7 @@ function slidemenu(sm, only_close, swipe) {
         });
         $(this).data('slideopen', false);
         //$(":jqmData(slidemenu)").css('margin-left', '0px');
-        $(":jqmData(role='header')").animate({left:'0px', avoidTransforms:true, useTranslate3d:true}, { duration:'fast', queue:false });
+        $(":jqmData(role='header')").animate({left:'0px', avoidTransforms:true, useTranslate3d:true}, { duration:'fast', queue:false, complete:function(){ sm.hide() } });
     }
 }
 

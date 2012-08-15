@@ -8,16 +8,13 @@
 	-webkit-box-shadow: 3px 0px 5px -2px #32394A;
 	box-shadow: 3px 0px 5px -2px #32394A;
 	/*z-index: 2147483647;*/
-    z-index: 1;
-	display: block;
+    z-index: 0;
+	display: none;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
 }
-.ui-page-active {
-    z-index: 2147483647;
-}
 
-.slidemenu h3{
+.slidemenu h3 {
 	font-size:12px;
 	font-family: Arial, Helvetica, sans-serif;
 	color:#8C919F;

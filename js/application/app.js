@@ -80,6 +80,9 @@ utils = (function () {
         },
         getAppointments = function () {
             console.log("Called getAppointments()");
+            // Add a loading spinner first so that the user knows we are working on it.
+            $('#appointmentList').append('<li class="loading"></li>');
+            $('#appointmentList').listview('refresh');
             $.ajax({
                 type:"GET",
                 url:"http://api.informulate.com/api/appointments"
@@ -93,7 +96,7 @@ utils = (function () {
                         if (i == 9)
                             return false;
                     });
-
+                    $('.loading').hide(); // Finished loading.... hide the spinner.
                     $('#appointmentList').listview('refresh'); // Refreshes the jquery mobile list view after appending.
                     utils.lazyLoading = false; // Prevents getAppointments from firing during callback.
                 });
