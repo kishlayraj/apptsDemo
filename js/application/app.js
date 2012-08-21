@@ -26,40 +26,34 @@ $(document).bind("pageinit", function() {
     utils.renderExternalTemplate("footer", "footer");
 });
 
-$(document).delegate("#my-appointments", "pageinit", function() { /* Only runs when #my-appointments page is loaded */
-    utils.getAppointments();
+$(document).bind("pagechange", function(ev, data) {
+    var pathname = (window.location.hash) ? window.location.hash.substr(1) : window.location.pathname;
+    
+    // if dialog page leave page setup
+    if (data.toPage.find('[data-page=dialog]').length > 0) { return; }
 
-    var showmore = false;
-    $('.desc').live("click", function(event) {
-        event.preventDefault(); // Stops jQuery mobile from reloading the index page.
-        event.stopImmediatePropagation();
+    // if data-script defined, load in specific javascript for the page in question
+    if (data.toPage.find('[data-script]').length > 0) {
 
-        if (this.showmore) {
-            $(this).animate({
-                height: '20px'
-            });
-        } else {
-            $(this).animate({
-                height: '100%'
-            });
+        // if previous page "pageunload" event defined, fire it then remove it
+        if (window.pageunload) {
+            window.pageunload();
+            delete window.unload;
         }
-        this.showmore = !this.showmore;
-    });
 
-    // Get more appointments when reaching the end of the page.
-    $(window).bind('scrollstart', function() {
-        if (utils.isAtBottom()) {
-            if (utils.lazyLoading === false) {
-                // Add a loading spinner first so that the user knows we are working on it.
-                $('#appointmentList').append('<li class="loading"><div id="canvasLoader"></div></li>');
-                utils.loadingSpinner();
-                $('#appointmentList').listview('refresh');
-                $.mobile.silentScroll($.mobile.activePage.height());
-                utils.lazyLoading = true;
-                utils.getAppointments(); // TODO: Pass the next page argument i.e. getAppointments(nextPage);
+        // turn off all events associated with a page just in case
+        $('body').off('.page');
+
+        // now getting the page-level javascript
+        $.getScript(data.toPage.find('[data-script]').data('script'), function () {
+            
+            // fires the page load event if the new javascript for the page defined it
+            if (window.pageload) {
+                window.pageload();
+                delete window.pageload;
             }
-        }
-    });
+        });
+    }
 });
 
 /* 
